@@ -12,9 +12,9 @@ import (
 
 type NetPool interface {
 	// 获取连接
-	Get() (*netNode,error)
+	Get() (*NetNode,error)
 	// 归还连接
-	Return(*netNode)
+	Return(*NetNode)
 	// 刷新连接池
 	Update(before func())
 	// 启动
@@ -23,15 +23,21 @@ type NetPool interface {
 	Close()
 	// 平滑关闭
 	Shutdown()
+	// 获取权重
+	InitWeights() int
+	// 获取当前值
+	CurrentWeights() int
+	// 设置当前值
+	SetCurrentWeights(int)
 }
 
 // default impl
 type PigNetPool struct {
 	connInfo ConnInfo
 	connList list.List
-	connListBackend []*netNode
+	connListBackend []*NetNode
 	connNum int32
-	idleNum int32
+	weights int
 	sync.Mutex
 	Status int32
 }
@@ -39,44 +45,6 @@ type PigNetPool struct {
 func NewPigNetPool(connInfo ConnInfo) *PigNetPool {
 	return &PigNetPool{connInfo: connInfo}
 }
-
-func (pool* PigNetPool) Get()(*netNode,error) {
-	// 加锁
-	pool.Lock()
-	defer pool.Unlock()
-
-	// 空闲连接不足
-	if pool.connList.Len()==0 {
-		if pool.connNum >= pool.connInfo.maxConnNum {
-			return nil,errors.New("没有可用连接")
-		}
-		node, err := pool.createNode()
-		if err != nil {
-			return nil,errors.New("没有可用连接")
-		}
-		node.lastAccess = time.Now().Unix()
-		pool.addNode(node)
-		return node,nil
-	}else{
-		front := pool.connList.Front()
-		pool.connList.Remove(front)
-		if front == nil {
-			return nil,errors.New("没有可用连接")
-		}
-		node := front.Value.(*netNode)
-		node.status = BusyStatus
-		return node,nil
-	}
-}
-
-// 归还连接
-func (pool* PigNetPool) Return(node *netNode) {
-	pool.Lock()
-	defer pool.Unlock()
-	pool.connList.PushFront(node)
-	node.status = IdleStatus
-}
-
 
 // 连接池启动
 // 根据参数建立连接
@@ -93,10 +61,11 @@ func (pool* PigNetPool) Start() {
 	}
 }
 
-func (pool* PigNetPool) Update(before func()) {
+func (pool *PigNetPool) Update(before func()) {
 	if before != nil {
 		before()
 	}
+
 	// 连接重建
 	if pool.connNum < pool.connInfo.minConnNum {
 		node, err := pool.createNode()
@@ -105,7 +74,18 @@ func (pool* PigNetPool) Update(before func()) {
 		}
 		pool.addNode(node)
 	}
-	// todo 空闲连接清理
+
+	// 空闲连接清理,清理过程将会lock住
+	var next *list.Element
+	pool.Lock()
+	defer pool.Unlock()
+	for e := pool.connList.Front(); e != nil; e = next {
+		next = e.Next()
+		node := e.Value.(NetNode)
+		if (time.Now().Unix()-node.lastAccess) >= pool.connInfo.maxIdleTime {
+			pool.connList.Remove(e)
+		}
+	}
 }
 
 // 强制关闭所有连接
@@ -128,20 +108,69 @@ func (pool* PigNetPool)Shutdown() {
 	}
 }
 
-func (pool* PigNetPool) createNode()(*netNode,error){
+func (pool* PigNetPool) Get()(*NetNode,error) {
+	// 加锁
+	pool.Lock()
+	defer pool.Unlock()
+
+	// 空闲连接不足
+	if pool.connList.Len()==0 {
+		if pool.connNum >= pool.connInfo.maxConnNum {
+			return nil,errors.New("没有可用连接")
+		}
+		node, err := pool.createNode()
+		if err != nil {
+			return nil,errors.New("没有可用连接")
+		}
+		node.lastAccess = time.Now().Unix()
+		pool.addNode(node)
+		return node,nil
+	}else{
+		front := pool.connList.Front()
+		pool.connList.Remove(front)
+		if front == nil {
+			return nil,errors.New("没有可用连接")
+		}
+		node := front.Value.(*NetNode)
+		node.status = BusyStatus
+		return node,nil
+	}
+}
+
+// 归还连接
+func (pool* PigNetPool) Return(node *NetNode) {
+	pool.Lock()
+	defer pool.Unlock()
+	pool.connList.PushFront(node)
+	node.status = IdleStatus
+}
+
+func (pool *PigNetPool) InitWeights()int  {
+	return pool.connInfo.initWeights
+}
+
+func (pool *PigNetPool) CurrentWeights() int {
+	return pool.weights
+}
+
+func (pool *PigNetPool) SetCurrentWeights(num int)  {
+	pool.weights += num
+}
+
+func (pool* PigNetPool) createNode()(*NetNode,error){
 	connStr := pool.connInfo.IpAddr+":"+strconv.Itoa(pool.connInfo.Port)
 	conn, err := net.Dial("tcp",connStr)
 	if err != nil {
 		return nil, err
 	}
-	node := &netNode{
+	node := &NetNode{
 		connStr:    connStr,
 		Conn:       conn,
 	}
 	return node,nil
 }
 
-func (pool* PigNetPool) addNode(node *netNode){
+func (pool* PigNetPool) addNode(node *NetNode){
 	atomic.AddInt32(&pool.connNum,1)
 	pool.connList.PushFront(node)
 	pool.connListBackend = append(pool.connListBackend,node)

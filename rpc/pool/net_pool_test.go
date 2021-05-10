@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"sync/atomic"
 	"testing"
-	"time"
 )
 
 func startDemoServer()  {
@@ -27,32 +25,37 @@ func startDemoServer()  {
 }
 
 func TestPigNetPool_Get(t *testing.T) {
-	go startDemoServer()
-	pool := NewPigNetPool(ConnInfo{
-		ServerName:  "test",
-		IpAddr:      "localhost",
-		Port:        8000,
-		maxConnNum:  10,
-		minConnNum:  10,
-		maxIdleTime: 2000,
-	})
-	pool.Start()
-	var count int32 = 0
-	for i:=0;i<10;i++ {
-		go func() {
-			for{
-				// 获取连接
-				conn, err := pool.Get()
-				if err != nil {
-					fmt.Println(err)
-				}
-				// 归还连接
-				pool.Return(conn)
-				atomic.AddInt32(&count,1)
-			}
-		}()
-	}
-	fmt.Println("go:")
-	time.Sleep(1*time.Second)
-	fmt.Printf("count=%d",count)
+	//go startDemoServer()
+	//pool := NewPigNetPool(ConnInfo{
+	//	ServerName:  "test",
+	//	IpAddr:      "localhost",
+	//	Port:        8000,
+	//	maxConnNum:  10,
+	//	minConnNum:  10,
+	//	maxIdleTime: 2000,
+	//})
+	//pool.Start()
+	//var count int32 = 0
+	//
+	//wait := sync.WaitGroup{}
+	//wait.Add(1)
+	//for i:=0;i<10;i++ {
+	//	go func() {
+	//		wait.Wait()
+	//		for{
+	//			// 获取连接
+	//			conn, err := pool.Get()
+	//			if err != nil {
+	//				fmt.Println(err)
+	//			}
+	//			// 归还连接
+	//			pool.Return(conn)
+	//			atomic.AddInt32(&count,1)
+	//		}
+	//	}()
+	//}
+	//wait.Done()
+	//fmt.Println("go:")
+	//time.Sleep(1*time.Second)
+	//fmt.Printf("count=%d\n",count)
 }
