@@ -3,8 +3,29 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="29d106f4-d1e7-4ce7-a598-cb71df846fd3" name="Default Changelist" comment="" />
+    <list default="true" id="29d106f4-d1e7-4ce7-a598-cb71df846fd3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/cmd/pigtool/protobuf/proto.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/entity/frame.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/entity/req.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/entity/response.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/go.sum" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/handler/handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpc/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc/transport/client_transport.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/transport/client_transport.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpc/transport/server_transport.go" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,43 +39,109 @@
     </option>
   </component>
   <component name="GOROOT" path="C:\Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="GoLibraries">
+    <option name="urls">
+      <list>
+        <option value="file://$PROJECT_DIR$" />
+      </list>
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/rpc/entity/req.go" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="sortByName" value="true" />
+  </component>
   <component name="ProjectId" id="1sKhzL5OBxCLOXnPpiw5fRBLzYr" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="configurable..is.expanded" value="false" />
+    <property name="configurable.GoLibrariesConfigurable.is.expanded" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="com.goide.configuration.GoLibrariesConfigurableProvider" />
   </component>
-  <component name="RunManager" selected="Go Test.TestPigNetPool_Get in net_pool_test.go">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\zeng\Desktop\corefile\code\go\pigkit\rpc" />
+      <recent name="C:\Users\zeng\Desktop\corefile\code\go\pigkit\example" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Go Build.go build rpc/">
+    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="pigkit" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/rpc/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build rpc/" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="pigkit" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$/rpc" />
+      <method v="2" />
+    </configuration>
     <configuration name="TestPigNetPool_Get in net_pool_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="pigkit" />
       <working_directory value="$PROJECT_DIR$/rpc/pool" />
-      <framework value="gotest" />
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/rpc/pool/net_pool_test.go" />
+      <framework value="gotest" />
       <pattern value="^\QTestPigNetPool_Get\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestPigPool_Start in pig_pool_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="pigkit" />
       <working_directory value="$PROJECT_DIR$/rpc/pool" />
-      <framework value="gotest" />
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/rpc/pool/pig_pool_test.go" />
+      <framework value="gotest" />
       <pattern value="^\QTestPigPool_Start\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestToBytes in cast_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="pigkit" />
+      <working_directory value="$PROJECT_DIR$/rpc/utils" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/rpc/utils/cast_test.go" />
+      <framework value="gotest" />
+      <pattern value="^\QTestToBytes\E$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build rpc/" />
+        <item itemvalue="Go Build.go build main.go" />
+        <item itemvalue="Go Test.TestToBytes in cast_test.go" />
         <item itemvalue="Go Test.TestPigNetPool_Get in net_pool_test.go" />
         <item itemvalue="Go Test.TestPigPool_Start in pig_pool_test.go" />
       </list>
@@ -64,34 +151,19 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="433" y="194" key="#Go_Modules" timestamp="1620627935623">
-      <screen x="0" y="0" width="1280" height="720" />
-    </state>
-    <state x="433" y="194" key="#Go_Modules/0.0.1280.720@0.0.1280.720" timestamp="1620627935623" />
-    <state x="96" y="0" width="1089" height="720" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1620638264648">
-      <screen x="0" y="0" width="1280" height="720" />
-    </state>
-    <state x="96" y="0" width="1089" height="720" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.720@0.0.1280.720" timestamp="1620638264648" />
-    <state width="1237" height="220" key="GridCell.Tab.0.bottom" timestamp="1620638308791">
-      <screen x="0" y="0" width="1280" height="720" />
-    </state>
-    <state width="1237" height="220" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1620638308791" />
-    <state width="1237" height="220" key="GridCell.Tab.0.center" timestamp="1620638308791">
-      <screen x="0" y="0" width="1280" height="720" />
-    </state>
-    <state width="1237" height="220" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1620638308791" />
-    <state width="1237" height="220" key="GridCell.Tab.0.left" timestamp="1620638308791">
-      <screen x="0" y="0" width="1280" height="720" />
-    </state>
-    <state width="1237" height="220" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1620638308791" />
-    <state width="1237" height="220" key="GridCell.Tab.0.right" timestamp="1620638308791">
-      <screen x="0" y="0" width="1280" height="720" />
-    </state>
-    <state width="1237" height="220" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1620638308791" />
-    <state x="303" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1620639403430">
-      <screen x="0" y="0" width="1280" height="720" />
-    </state>
-    <state x="303" y="41" width="672" height="678" key="search.everywhere.popup/0.0.1280.720@0.0.1280.720" timestamp="1620639403430" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

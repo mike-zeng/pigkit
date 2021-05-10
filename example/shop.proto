@@ -1,0 +1,17 @@
+syntax = "proto3";
+package site.calculate;
+//option java_generic_services = true;
+option java_outer_classname = 'Shop';
+
+
+message GetShopIdsByUserIdRequest {
+  int64 userId = 1;
+}
+
+message GetShopIdsByUserIdResponse {
+  repeated int64 shopIdList = 1;
+}
+
+service CalculateService {
+  rpc getShopIdsByUserId(GetShopIdsByUserIdRequest)returns(GetShopIdsByUserIdResponse);
+}
