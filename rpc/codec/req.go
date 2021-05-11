@@ -1,15 +1,12 @@
 package request
 
-import "pigkit/rpc/frame"
-
 type PigReq struct {
 	ServerName string
 	MetaData map[string]interface{}
+	SerializationType int
 	Content interface{}
 }
 
-func (req *PigReq) ToFrame() frame.Frame {
-	return frame.Frame{
-		
-	}
+func (req *PigReq) Bytes() []byte {
+	return nil
 }
