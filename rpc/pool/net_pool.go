@@ -49,14 +49,14 @@ func NewPigNetPool(connInfo ConnInfo) *PigNetPool {
 // 连接池启动
 // 根据参数建立连接
 func (pool* PigNetPool) Start() {
-	for i:=0;i<int(pool.connInfo.minConnNum);i++{
+	for i:=0;i<int(pool.connInfo.MinConnNum);i++{
 		node,err := pool.createNode()
 		if err != nil{
 			// todo 补充日志
 		}
 		pool.addNode(node)
 	}
-	if pool.connList.Len() != int(pool.connInfo.minConnNum) {
+	if pool.connList.Len() != int(pool.connInfo.MinConnNum) {
 		pool.Update(nil)
 	}
 }
@@ -67,7 +67,7 @@ func (pool *PigNetPool) Update(before func()) {
 	}
 
 	// 连接重建
-	if pool.connNum < pool.connInfo.minConnNum {
+	if pool.connNum < pool.connInfo.MinConnNum {
 		node, err := pool.createNode()
 		if err != nil{
 			// todo 补充日志
@@ -82,7 +82,7 @@ func (pool *PigNetPool) Update(before func()) {
 	for e := pool.connList.Front(); e != nil; e = next {
 		next = e.Next()
 		node := e.Value.(NetNode)
-		if (time.Now().Unix()-node.lastAccess) >= pool.connInfo.maxIdleTime {
+		if (time.Now().Unix()-node.lastAccess) >= pool.connInfo.MaxIdleTime {
 			pool.connList.Remove(e)
 		}
 	}
@@ -115,7 +115,7 @@ func (pool* PigNetPool) Get()(*NetNode,error) {
 
 	// 空闲连接不足
 	if pool.connList.Len()==0 {
-		if pool.connNum >= pool.connInfo.maxConnNum {
+		if pool.connNum >= pool.connInfo.MaxConnNum {
 			return nil,errors.New("没有可用连接")
 		}
 		node, err := pool.createNode()
@@ -146,7 +146,7 @@ func (pool* PigNetPool) Return(node *NetNode) {
 }
 
 func (pool *PigNetPool) InitWeights()int  {
-	return pool.connInfo.initWeights
+	return pool.connInfo.InitWeights
 }
 
 func (pool *PigNetPool) CurrentWeights() int {

@@ -4,13 +4,13 @@ import "strconv"
 
 // 连接信息
 type ConnInfo struct {
-	ServerName string
-	IpAddr string
-	Port int
-	initWeights int
-	maxConnNum int32
-	minConnNum int32
-	maxIdleTime int64
+	ServerName  string
+	IpAddr      string
+	Port        int
+	InitWeights int
+	MaxConnNum  int32
+	MinConnNum  int32
+	MaxIdleTime int64
 }
 
 func (connInfo *ConnInfo) connStr()string  {

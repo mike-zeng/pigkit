@@ -37,7 +37,6 @@ import (
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
 
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
-	gorpclog "github.com/lubanproj/gorpc/log"
 )
 
 // generatedCodeVersion indicates a version of the generated code.
@@ -478,7 +477,6 @@ func (g *Generator) CommandLineParameters(parameter string) {
 			}
 		}
 	}
-	gorpclog.Debugf("pluginlist : %v", pluginList)
 	if pluginList != "" {
 		// Amend the set of plugins.
 		enabled := make(map[string]bool)
@@ -487,13 +485,10 @@ func (g *Generator) CommandLineParameters(parameter string) {
 		}
 		var nplugins []Plugin
 		for _, p := range plugins {
-			gorpclog.Debugf("enabled : %v", enabled)
-			gorpclog.Debugf("p.Name() : %v", p.Name())
 			if enabled[p.Name()] {
 				nplugins = append(nplugins, p)
 			}
 		}
-		gorpclog.Debugf("nplugins : %v", nplugins)
 		plugins = nplugins
 	}
 }
@@ -1094,8 +1089,6 @@ func (g *Generator) GenerateAllFiles() {
 
 // Run all the plugins associated with the file.
 func (g *Generator) runPlugins(file *FileDescriptor) {
-	gorpclog.Debugf("plugins : %v", plugins)
-	gorpclog.Debugf("len(plugins) : %d", len(plugins))
 	for _, p := range plugins {
 		p.Generate(file)
 	}
@@ -1516,8 +1509,8 @@ func (g *Generator) goTag(message *Descriptor, field *descriptor.FieldDescriptor
 	}
 	packed := ""
 	if (field.Options != nil && field.Options.GetPacked()) ||
-	// Per https://developers.google.com/protocol-buffers/docs/proto3#simple:
-	// "In proto3, repeated fields of scalar numeric types use packed encoding by default."
+		// Per https://developers.google.com/protocol-buffers/docs/proto3#simple:
+		// "In proto3, repeated fields of scalar numeric types use packed encoding by default."
 		(message.proto3() && (field.Options == nil || field.Options.Packed == nil) &&
 			isRepeated(field) && isScalar(field)) {
 		packed = ",packed"

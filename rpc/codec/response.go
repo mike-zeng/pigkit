@@ -1,8 +1,6 @@
-package response
+package codec
 
-import (
-	"pigkit/rpc/codec"
-)
+import "encoding/json"
 
 type PigResponse struct {
 	ServerName string
@@ -12,9 +10,6 @@ type PigResponse struct {
 }
 
 func (res *PigResponse) Bytes() []byte{
-	return nil
-}
-
-func FrameToPigResponse(frame *codec.Frame) (*PigResponse,error){
-	return nil,nil
+	marshal, _ := json.Marshal(res)
+	return marshal
 }

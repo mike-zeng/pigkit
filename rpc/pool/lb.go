@@ -1,7 +1,6 @@
 package pool
 
 type LoadBalancer struct {
-
 }
 
 

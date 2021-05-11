@@ -30,9 +30,9 @@ func TestPigNetPool_Get(t *testing.T) {
 	//	ServerName:  "test",
 	//	IpAddr:      "localhost",
 	//	Port:        8000,
-	//	maxConnNum:  10,
-	//	minConnNum:  10,
-	//	maxIdleTime: 2000,
+	//	MaxConnNum:  10,
+	//	MinConnNum:  10,
+	//	MaxIdleTime: 2000,
 	//})
 	//pool.Start()
 	//var count int32 = 0

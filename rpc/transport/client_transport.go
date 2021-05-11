@@ -2,39 +2,46 @@ package transport
 
 import (
 	"errors"
-	"pigkit/rpc/frame"
+	"pigkit/rpc/codec"
 	"pigkit/rpc/pool"
-	"pigkit/rpc/request"
-	"pigkit/rpc/response"
 )
 
 type ClientTransport interface {
-	SyncSend(req *request.PigReq)(*response.PigResponse,error)
+	SyncSend(serverName string,bytes []byte)(*codec.Frame,error)
 }
 
 
 type PigClientTransport struct {
-	manage pool.Manage
+	manage *pool.Manage
 }
 
-func (trans *PigClientTransport) SyncSend(req *request.PigReq)(*response.PigResponse,error) {
-	bytes := req.ToFrame().Bytes()
-	netPool := trans.manage.GetPool(req.ServerName)
+func NewPigClientTransport(manage *pool.Manage) *PigClientTransport {
+	return &PigClientTransport{manage: manage}
+}
+
+func (trans *PigClientTransport) SyncSend(serverName string, data []byte)(*codec.Frame,error) {
+	netPool := trans.manage.GetPool(serverName)
 	if netPool == nil{
 		 return nil,errors.New("server not exist")
 	}
 	node, err := netPool.Get()
+	defer func() {
+		netPool.Return(node)
+	}()
 	if err != nil||node==nil {
 		return nil,errors.New("no free node")
 	}
-	_, err = node.Conn.Write(bytes)
+
+	// write data
+	_, err = node.Conn.Write(data)
 	if err != nil{
-		return nil,errors.New("write error")
+		return nil,err
 	}
-	// get response
-	f,err := frame.BuildFromReader(node.Conn)
-	if err != nil || f ==nil{
-		// todo
+	// read frame from conn
+	frame, err := ReadFrame(node.Conn)
+	if err != nil {
+		return nil, err
 	}
-	return response.FrameToPigResponse(f)
+	return frame,nil
 }
+
