@@ -10,8 +10,7 @@ import (
 // Paths for packages used by code generated in this file,
 // relative to the import_prefix of the generator.Generator.
 const (
-	PigRpcServerPkgPath      = "github.com/lubanproj/pigrpc"
-	PigRpcClientPkgPath      = "github.com/lubanproj/pigrpc/client"
+	PigRpcServerPkgPath      = "github.com/mike-zeng/pigkit/rpc"
 )
 
 func init() {
@@ -59,7 +58,6 @@ func (p *pigrpc) Generate(file *generator.FileDescriptor) {
 	}
 	// 导入包
 	_ = p.gen.AddImport(PigRpcServerPkgPath)
-	_ = p.gen.AddImport(PigRpcClientPkgPath)
 	_ = p.gen.AddImport("context")
 
 	for i, service := range file.FileDescriptorProto.Service {
@@ -82,35 +80,35 @@ func (p *pigrpc) generateService(file *generator.FileDescriptor, service *pb.Ser
 	}
 	p.P("}")
 
-	p.generateServiceDesc(service, file.GetPackage())
-	for _, method := range service.Method {
-		p.generateServerCode(service, method, file.GetPackage())
-	}
-	p.generateRegisterCode(service)
+	//p.generateServiceDesc(service, file.GetPackage())
+	//for _, method := range service.Method {
+	//	p.generateServerCode(service, method, file.GetPackage())
+	//}
+	//p.generateRegisterCode(service)
 
-	p.P("//================== client stub===================")
-	p.P(fmt.Sprintf(`//%sClientProxy is a client proxy for service %s.
-		type %sClientProxy interface {
-	`, serviceName, serviceName, serviceName))
-	for _, method := range service.Method {
-		p.generateClientInterfaceCode(method)
-	}
-	p.P("}")
-	p.P(fmt.Sprintf(`
-		type %sClientProxyImpl struct {
-			client client.Client
-			opts   []client.Option
-		}
-	`, serviceName))
-	p.P(fmt.Sprintf(`
-		func New%sClientProxy(opts ...client.Option) %sClientProxy {
-			return &%sClientProxyImpl{client: client.DefaultClient, opts: opts}
-		}
-	`, serviceName, serviceName, serviceName))
-
-	for _, method := range service.Method {
-		p.generateClientCode(service, method, file.GetPackage())
-	}
+	//p.P("//================== client stub===================")
+	//p.P(fmt.Sprintf(`//%sClientProxy is a client proxy for service %s.
+	//	type %sClientProxy interface {
+	//`, serviceName, serviceName, serviceName))
+	//for _, method := range service.Method {
+	//	p.generateClientInterfaceCode(method)
+	//}
+	//p.P("}")
+	//p.P(fmt.Sprintf(`
+	//	type %sClientProxyImpl struct {
+	//		client client.Client
+	//		opts   []client.Option
+	//	}
+	//`, serviceName))
+	//p.P(fmt.Sprintf(`
+	//	func New%sClientProxy(opts ...client.Option) %sClientProxy {
+	//		return &%sClientProxyImpl{client: client.DefaultClient, opts: opts}
+	//	}
+	//`, serviceName, serviceName, serviceName))
+	//
+	//for _, method := range service.Method {
+	//	p.generateClientCode(service, method, file.GetPackage())
+	//}
 }
 
 func (p *pigrpc) generateRegisterCode(service *pb.ServiceDescriptorProto) {
