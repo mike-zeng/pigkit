@@ -7,6 +7,6 @@ string name = 1;
 message Response {
 string msg = 1;
 }
-service Greeter {
+service Hello {
   rpc Hello(Request) returns (Response) {}
 }

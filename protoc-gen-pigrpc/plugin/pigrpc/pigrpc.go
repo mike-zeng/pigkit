@@ -80,13 +80,12 @@ func (p *pigrpc) generateService(file *generator.FileDescriptor, service *pb.Ser
 	}
 	p.P("}")
 
-	//p.generateServiceDesc(service, file.GetPackage())
-	//for _, method := range service.Method {
-	//	p.generateServerCode(service, method, file.GetPackage())
-	//}
+	p.generateServiceDesc(service, file.GetPackage())
+	for _, method := range service.Method {
+		p.generateServerCode(service, method, file.GetPackage())
+	}
 	//p.generateRegisterCode(service)
-
-	//p.P("//================== client stub===================")
+	p.P("//================== client stub===================")
 	//p.P(fmt.Sprintf(`//%sClientProxy is a client proxy for service %s.
 	//	type %sClientProxy interface {
 	//`, serviceName, serviceName, serviceName))
@@ -109,6 +108,7 @@ func (p *pigrpc) generateService(file *generator.FileDescriptor, service *pb.Ser
 	//for _, method := range service.Method {
 	//	p.generateClientCode(service, method, file.GetPackage())
 	//}
+	//
 }
 
 func (p *pigrpc) generateRegisterCode(service *pb.ServiceDescriptorProto) {
@@ -123,18 +123,15 @@ func (p *pigrpc) generateRegisterCode(service *pb.ServiceDescriptorProto) {
 func (p *pigrpc) generateServiceDesc(service *pb.ServiceDescriptorProto, pkgPath string) {
 
 	serviceName := upperFirstLatter(service.GetName())
-	p.P(fmt.Sprintf(`var _%s_serviceDesc = &pigrpc.ServiceDesc {
+	p.P(fmt.Sprintf(`var %sServiceDesc = &service.ServiceDesc {
 		ServiceName: "%s.%s",
 		HandlerType: (*%sService)(nil),
-		Methods: []*pigrpc.MethodDesc {
+		Methods: map[string]service.Handler {
 	`, serviceName, pkgPath,serviceName,serviceName))
 
 	for _, method := range service.Method {
 		methodName := upperFirstLatter(method.GetName())
-		p.P(fmt.Sprintf(`{
-			MethodName: "%s",
-			Handler: %sService_%s_Handler,
-		},`, methodName, serviceName, methodName))
+		p.P(fmt.Sprintf(`"%s": %sService_%s_Handler,`, methodName, serviceName, methodName))
 	}
 
 	p.P("},")
@@ -154,24 +151,14 @@ func (p *pigrpc) generateServerCode(service *pb.ServiceDescriptorProto, method *
 	serviceName := upperFirstLatter(service.GetName())
 	inType := p.typeName(method.GetInputType())
 	p.P(fmt.Sprintf(`
-		func %sService_%s_Handler(ctx context.Context){
-			
+		func %sService_%s_Handler(ctx context.Context,s interface{},pigReq *codec.PigReq,fillReq func(interface{},*codec.PigReq)error)(interface{},error){
 			req := new(%s)
-			if err := dec(req); err != nil {
+			if err := fillReq(req,pigReq); err != nil {
 				return nil, err	
 			}
-
-			if len(ceps) == 0 {
-				return svr.(%sService).%s(ctx, req)
-			}
-			
-			handler := func(ctx context.Context, reqbody interface{})(interface{}, error) {
-				return svr.(%sService).%s(ctx, reqbody.(*%s))
-			}
-				
-			return interceptor.ServerIntercept(ctx, req, ceps, handler)
+			return s.(%sService).%s(ctx, req)
 		}
-	`, serviceName, methodName, inType, serviceName, methodName, serviceName, methodName, inType))
+	`, serviceName, methodName, inType, serviceName, methodName))
 }
 
 func (p *pigrpc) generateClientCode(service *pb.ServiceDescriptorProto, method *pb.MethodDescriptorProto, pkgName string) {

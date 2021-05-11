@@ -2,38 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e51c3e5-c0eb-4428-83ac-92ec703a61f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/generator/generator.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plugin/pigrpc/pigrpc.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/codec/coding.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/codec/coding_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/codec/encoding.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/codec/response.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/codec/serialization.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/env/define.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/env/env.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/server/handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/server/server.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/server/server_options.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/server/service.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/transport/client_transport_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/transport/server_transport.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/transport/server_transport_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../rpc/transport/transport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/pigkit.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/protoc-gen-pigrpc.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/frame/frame.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/codec/frame.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/pool/conn_info.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/pool/conn_info.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/pool/lb.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/pool/lb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/pool/manage_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/pool/manage_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/pool/net_pool.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/pool/net_pool.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/pool/net_pool_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/pool/net_pool_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/request/req.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/codec/req.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/response/response.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rpc/transport/client_transport.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/transport/client_transport.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../example/hello/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../example/hello/.idea/hello.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../example/hello/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../example/hello/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../example/hello/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../example/hello/hello.pb.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../example/hello/hello.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugin/pigrpc/pigrpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugin/pigrpc/pigrpc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rpc/server/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/server/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rpc/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/../rpc/server/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +60,37 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../rpc" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\zeng\Desktop\corefile\code\go\pigkit" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Go Test.go test protoc-gen-pigrpc">
+    <configuration name="go build pigkit/protoc-gen-pigrpc" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="protoc-gen-pigrpc" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="pigkit/protoc-gen-pigrpc" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go test protoc-gen-pigrpc" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="protoc-gen-pigrpc" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.go test protoc-gen-pigrpc" />
+        <item itemvalue="Go Build.go build pigkit/protoc-gen-pigrpc" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
@@ -94,6 +106,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

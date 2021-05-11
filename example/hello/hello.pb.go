@@ -126,7 +126,7 @@ type HelloService interface {
 	Hello(ctx context.Context, req *Request) (*Response, error)
 }
 
-var HelloServiceDesc = &service.ServiceDesc{
+var HelloServiceDesc = &rpc.ServiceDesc{
 	ServiceName: ".Hello",
 	HandlerType: (*HelloService)(nil),
 	Methods: map[string]service.Handler{
