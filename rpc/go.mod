@@ -1,4 +1,4 @@
-module pigkit/rpc
+module gihub.com/mike-zeng/pigkit/rpc
 
 go 1.15
 
