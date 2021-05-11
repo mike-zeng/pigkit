@@ -7,7 +7,8 @@ import (
 	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
-	rpc "github.com/mike-zeng/pigkit/rpc"
+	server "github.com/mike-zeng/pigkit/rpc/server"
+	"github.com/mike-zeng/pigkit/rpc/codec"
 	math "math"
 )
 
@@ -126,10 +127,10 @@ type HelloService interface {
 	Hello(ctx context.Context, req *Request) (*Response, error)
 }
 
-var HelloServiceDesc = &rpc.ServiceDesc{
+var HelloServiceDesc = &server.ServiceDesc{
 	ServiceName: ".Hello",
 	HandlerType: (*HelloService)(nil),
-	Methods: map[string]service.Handler{
+	Methods: map[string]server.Handler{
 
 		"Hello": HelloService_Hello_Handler,
 	},

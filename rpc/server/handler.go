@@ -2,7 +2,7 @@ package server
 
 import (
 	"context"
-	"pigkit/rpc/codec"
+	"github.com/mike-zeng/pigkit/rpc/codec"
 )
 
-type Handler func(context.Context,interface{},interface{},func(interface{},*codec.PigReq)error)(interface{},error)
+type Handler func(context.Context,interface{},*codec.PigReq,func(interface{},*codec.PigReq)error)(interface{},error)
