@@ -2,8 +2,8 @@ package transport
 
 import (
 	"errors"
-	"pigkit/rpc/codec"
-	"pigkit/rpc/pool"
+	"github.com/mike-zeng/pigkit/rpc/codec"
+	"github.com/mike-zeng/pigkit/rpc/pool"
 )
 
 type ClientTransport interface {
@@ -31,7 +31,6 @@ func (trans *PigClientTransport) SyncSend(serverName string, data []byte)(*codec
 	if err != nil||node==nil {
 		return nil,errors.New("no free node")
 	}
-
 	// write data
 	_, err = node.Conn.Write(data)
 	if err != nil{

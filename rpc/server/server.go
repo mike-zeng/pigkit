@@ -2,8 +2,8 @@ package server
 
 import (
 	"context"
-	"pigkit/rpc/codec"
-	"pigkit/rpc/transport"
+	"github.com/mike-zeng/pigkit/rpc/codec"
+	"github.com/mike-zeng/pigkit/rpc/transport"
 )
 
 type Server interface {
@@ -13,19 +13,19 @@ type Server interface {
 }
 
 type PigServer struct {
-	desc ServiceDesc
-	handler interface{}
-	trans transport.ServerTransport
+	desc    *ServiceDesc
+	service interface{}
+	trans   transport.PigServerTransport
 }
 
-func NewPigServer(desc ServiceDesc, handler interface{}) *PigServer {
-	return &PigServer{desc: desc, handler: handler}
+func NewPigServer(desc *ServiceDesc, service interface{}) *PigServer {
+	return &PigServer{desc: desc, service: service}
 }
 
 func (p *PigServer) HandlerReq(pigReq *codec.PigReq)(*codec.PigResponse,error) {
-	serialization := &codec.PbSerialization{}
+	serialization := codec.GetSerialization(pigReq.SerializationType)
 	handler := p.desc.Methods[pigReq.MethodName]
-	respBody, err := handler(context.Background(), handler, pigReq, func(req interface{},pigReq *codec.PigReq) error {
+	respBody, err := handler(context.Background(), p.service, pigReq, func(req interface{},pigReq *codec.PigReq) error {
 		return serialization.Unmarshal(pigReq.Content, req)
 	})
 	if err != nil {
@@ -41,6 +41,7 @@ func (p *PigServer) HandlerReq(pigReq *codec.PigReq)(*codec.PigResponse,error) {
 }
 
 func (p *PigServer) Serve(options *Options) {
+	p.trans.SetHandlerReq(p.HandlerReq)
 	p.trans.ListenAndServer(options.Ip,options.Port)
 }
 

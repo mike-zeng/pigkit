@@ -1,6 +1,7 @@
 package codec
 
 import (
+	"encoding/json"
 	"errors"
 	"math"
 	"sync"
@@ -14,7 +15,24 @@ type Serialization interface {
 	Unmarshal([]byte, interface{}) error
 }
 
+const (
+	PbType = "proto"
+	JsonType = "json"
+)
+var pbSerialization PbSerialization
+var jsonSerialization JsonSerialization
 
+
+func GetSerialization(typeStr string)Serialization  {
+	switch typeStr {
+	case PbType:
+		return &pbSerialization
+	case JsonType:
+		return &jsonSerialization
+	default:
+		return nil
+	}
+}
 
 type PbSerialization struct{
 
@@ -85,4 +103,16 @@ func upperLimit(val int) uint32 {
 		return uint32(math.MaxInt32)
 	}
 	return uint32(val)
+}
+
+type JsonSerialization struct{
+
+}
+
+func (j *JsonSerialization) Marshal(i interface{}) ([]byte, error) {
+	return json.Marshal(i)
+}
+
+func (j *JsonSerialization) Unmarshal(bytes []byte, i interface{}) error {
+	return json.Unmarshal(bytes, i)
 }

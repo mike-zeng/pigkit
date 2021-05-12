@@ -2,13 +2,14 @@ package transport
 
 import (
 	"bytes"
+	"github.com/mike-zeng/pigkit/rpc/codec"
 	"io"
 	"net"
-	"pigkit/rpc/codec"
 )
 
 func ReadFrame(conn net.Conn) (*codec.Frame,error){
-	frameHeaderData := make([]byte, codec.FrameHeadLen)
+	// read frame header
+	frameHeaderData := make([]byte,codec.FrameHeadLen)
 	if num, err := io.ReadFull(conn, frameHeaderData); num != codec.FrameHeadLen || err != nil {
 		return nil,err
 	}
@@ -16,7 +17,7 @@ func ReadFrame(conn net.Conn) (*codec.Frame,error){
 	if err != nil {
 		return nil, err
 	}
-
+	// read frame body
 	frameBodyData := make([]byte,frameHeader.Length)
 	if num, err := io.ReadFull(conn, frameBodyData); num != int(frameHeader.Length) || err != nil {
 		return nil,err

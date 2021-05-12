@@ -2,7 +2,7 @@ package pool
 
 import "strconv"
 
-// 连接信息
+// ConnInfo 连接信息
 type ConnInfo struct {
 	ServerName  string
 	IpAddr      string

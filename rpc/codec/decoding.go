@@ -1,10 +1,10 @@
 package codec
 
 import (
-	"pigkit/rpc/env"
+	"github.com/mike-zeng/pigkit/rpc/env"
 )
 
-func CodingRequestToFrame(req *PigReq) *Frame {
+func DecodingRequestToFrame(req *PigReq) *Frame {
 	frame := Frame{
 		Header: &Header{
 			Magic:        env.MagicNum,
@@ -19,7 +19,7 @@ func CodingRequestToFrame(req *PigReq) *Frame {
 }
 
 
-func CodingResponseToFrame(resp *PigResponse) *Frame {
+func DecodingResponseToFrame(resp *PigResponse) *Frame {
 	frame := Frame{
 		Header: &Header{
 			Magic:        env.MagicNum,

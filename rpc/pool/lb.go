@@ -1,10 +1,24 @@
 package pool
 
-type LoadBalancer struct {
+var (
+	slb SmoothWeightedLoadBalancer
+)
+
+func DefaultLoadBalancer() LoadBalancer{
+	return &slb
 }
 
+// LoadBalancer 负载均衡器
+type LoadBalancer interface {
+	GetPool(pools []NetPool)NetPool
+}
 
-func (lb *LoadBalancer) GetPool(pools []NetPool)NetPool {
+// SmoothWeightedLoadBalancer 平滑加权轮询算法
+type SmoothWeightedLoadBalancer struct {
+	
+}
+
+func (lb *SmoothWeightedLoadBalancer) GetPool(pools []NetPool)NetPool {
 	if len(pools)==0{
 		return nil
 	}

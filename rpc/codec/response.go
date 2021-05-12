@@ -6,7 +6,7 @@ type PigResponse struct {
 	ServerName string
 	MetaData map[string]interface{}
 	SerializationType int
-	Content interface{}
+	Content []byte
 }
 
 func (res *PigResponse) Bytes() []byte{

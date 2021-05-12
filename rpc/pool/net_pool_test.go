@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func startDemoServer()  {
+func startDemoServer() {
 	func() {
 		listener, err := net.Listen("tcp", "localhost:8000")
 		if err != nil {
@@ -27,7 +27,7 @@ func startDemoServer()  {
 func TestPigNetPool_Get(t *testing.T) {
 	//go startDemoServer()
 	//pool := NewPigNetPool(ConnInfo{
-	//	ServerName:  "test",
+	//	ServiceName:  "test",
 	//	IpAddr:      "localhost",
 	//	Port:        8000,
 	//	MaxConnNum:  10,

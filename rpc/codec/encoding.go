@@ -5,11 +5,11 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"errors"
-	"pigkit/rpc/env"
+	"github.com/mike-zeng/pigkit/rpc/env"
 )
 
 
-func EnCodingResponse(frame *Frame) (*PigResponse,error) {
+func EncodingFrameToResponse(frame *Frame) (*PigResponse,error) {
 
 	if !frame.IsResp() {
 		return nil,errors.New("frame msg type error,need resp type")
@@ -20,7 +20,7 @@ func EnCodingResponse(frame *Frame) (*PigResponse,error) {
 	return &pigResponse,err
 }
 
-func EnCodingRequest(frame *Frame) (*PigReq,error) {
+func EncodingFrameToRequest(frame *Frame) (*PigReq,error) {
 
 	if !frame.IsReq() {
 		return nil,errors.New("frame msg type error,need req type")

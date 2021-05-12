@@ -11,27 +11,27 @@ import (
 )
 
 type NetPool interface {
-	// 获取连接
+	// Get 获取连接
 	Get() (*NetNode,error)
-	// 归还连接
+	// Return 归还连接
 	Return(*NetNode)
-	// 刷新连接池
+	// Update 刷新连接池
 	Update(before func())
-	// 启动
+	// Start 启动
 	Start()
-	// 关闭
+	// Close 关闭
 	Close()
-	// 平滑关闭
+	// Shutdown 平滑关闭
 	Shutdown()
-	// 获取权重
+	// InitWeights 获取权重
 	InitWeights() int
-	// 获取当前值
+	// CurrentWeights 获取当前值
 	CurrentWeights() int
-	// 设置当前值
+	// SetCurrentWeights 设置当前值
 	SetCurrentWeights(int)
 }
 
-// default impl
+// PigNetPool default impl
 type PigNetPool struct {
 	connInfo ConnInfo
 	connList list.List
@@ -46,7 +46,7 @@ func NewPigNetPool(connInfo ConnInfo) *PigNetPool {
 	return &PigNetPool{connInfo: connInfo}
 }
 
-// 连接池启动
+// Start 连接池启动
 // 根据参数建立连接
 func (pool* PigNetPool) Start() {
 	for i:=0;i<int(pool.connInfo.MinConnNum);i++{
@@ -74,7 +74,6 @@ func (pool *PigNetPool) Update(before func()) {
 		}
 		pool.addNode(node)
 	}
-
 	// 空闲连接清理,清理过程将会lock住
 	var next *list.Element
 	pool.Lock()
@@ -88,7 +87,7 @@ func (pool *PigNetPool) Update(before func()) {
 	}
 }
 
-// 强制关闭所有连接
+// Close 强制关闭所有连接
 // 无论当前连接是否空闲，全部关闭
 func (pool* PigNetPool) Close() {
 	for _,node := range pool.connListBackend {
@@ -116,11 +115,11 @@ func (pool* PigNetPool) Get()(*NetNode,error) {
 	// 空闲连接不足
 	if pool.connList.Len()==0 {
 		if pool.connNum >= pool.connInfo.MaxConnNum {
-			return nil,errors.New("没有可用连接")
+			return nil,errors.New("no connect to use")
 		}
 		node, err := pool.createNode()
 		if err != nil {
-			return nil,errors.New("没有可用连接")
+			return nil,errors.New("no connect to use")
 		}
 		node.lastAccess = time.Now().Unix()
 		pool.addNode(node)
@@ -129,7 +128,7 @@ func (pool* PigNetPool) Get()(*NetNode,error) {
 		front := pool.connList.Front()
 		pool.connList.Remove(front)
 		if front == nil {
-			return nil,errors.New("没有可用连接")
+			return nil,errors.New("no connect to use")
 		}
 		node := front.Value.(*NetNode)
 		node.status = BusyStatus
@@ -137,7 +136,7 @@ func (pool* PigNetPool) Get()(*NetNode,error) {
 	}
 }
 
-// 归还连接
+// Return 归还连接
 func (pool* PigNetPool) Return(node *NetNode) {
 	pool.Lock()
 	defer pool.Unlock()

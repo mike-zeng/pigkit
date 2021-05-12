@@ -1,14 +1,14 @@
 package transport
 
 import (
-	"fmt"
+	"github.com/mike-zeng/pigkit/rpc/codec"
+	"github.com/mike-zeng/pigkit/rpc/log"
 	"net"
-	"pigkit/rpc/codec"
 	"strconv"
 )
 
 type ServerTransport interface {
-	SetHandlerReq(func(*codec.PigReq)*codec.PigResponse,error)
+	SetHandlerReq(func(*codec.PigReq) (*codec.PigResponse, error))
 	ListenAndServer(ip string,port int)
 }
 
@@ -25,12 +25,13 @@ func (trans *PigServerTransport) ListenAndServer(ip string,port int)  {
 	address := ip + ":"+ strconv.Itoa(port)
 	lis, err := net.Listen("tcp", address)
 	if err != nil {
-		panic(err)
+		log.DefaultLog.FATAL("network listen error %v",err)
 	}
+	log.DefaultLog.INFO("server start,listen on port %d",port)
 	for {
 		conn , err := lis.Accept()
 		if err != nil {
-			panic(err)
+			log.DefaultLog.FATAL("network error %v",err)
 		}
 		go trans.handleConn(conn)
 	}
@@ -39,21 +40,24 @@ func (trans *PigServerTransport) ListenAndServer(ip string,port int)  {
 func (trans *PigServerTransport)handleConn(conn net.Conn)  {
 	frame, err := ReadFrame(conn)
 	if err != nil {
-		// todo
+		log.DefaultLog.ERROR("read frame error %v",err)
 		return
 	}
-	// 解码req
-	request, err := codec.EnCodingRequest(frame)
+	// encoding frame to req
+	request, err := codec.EncodingFrameToRequest(frame)
 	if err != nil {
+		log.DefaultLog.ERROR("encoding frame error %v",err)
 		return
 	}
+	// deal req
 	resp,err := trans.handlerReq(request)
 	if err != nil {
-		// todo 处理错误
+		return
 	}
-	respFrame := codec.CodingResponseToFrame(resp)
+	// decoding resp to frame
+	respFrame := codec.DecodingResponseToFrame(resp)
 	_, err = conn.Write(respFrame.Bytes())
 	if err != nil {
-		fmt.Println("写入失败")
+		log.DefaultLog.ERROR("write data to network error %v",err)
 	}
 }
