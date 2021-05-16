@@ -1,0 +1,13 @@
+syntax = "proto3";
+option go_package = "example/hello";
+
+message PigRequest {
+  string name = 1;
+}
+
+message PigResponse {
+  string msg = 1;
+}
+service Hello {
+  rpc Hello(PigRequest) returns (PigResponse) {}
+}

@@ -49,13 +49,11 @@
 package main
 
 import (
-"io/ioutil"
-"os"
-	"pigkit/protoc-gen-pigrpc/generator"
-
 	"github.com/golang/protobuf/proto"
-
-_ "pigkit/protoc-gen-pigrpc/plugin/pigrpc"
+	"github/mike-zeng/pigkit/protoc-gen-pigrpc/generator"
+	_ "github/mike-zeng/pigkit/protoc-gen-pigrpc/plugin/pigrpc"
+	"io/ioutil"
+	"os"
 )
 
 func main() {
@@ -63,7 +61,6 @@ func main() {
 	// so we can do error handling easily - the response structure contains the field to
 	// report failure.
 	g := generator.New()
-
 	data, err := ioutil.ReadAll(os.Stdin)
 	if err != nil {
 		g.Error(err, "reading input")
