@@ -3,6 +3,8 @@ package server
 import (
 	"context"
 	"github.com/mike-zeng/pigkit/rpc/codec"
+	"github.com/mike-zeng/pigkit/rpc/config"
+	"github.com/mike-zeng/pigkit/rpc/third"
 	"github.com/mike-zeng/pigkit/rpc/transport"
 )
 
@@ -18,7 +20,8 @@ type PigServer struct {
 	trans   transport.PigServerTransport
 }
 
-func NewPigServer(desc *ServiceDesc, service interface{}) *PigServer {
+func NewPigServer(desc *ServiceDesc, service interface{},confPath string) *PigServer {
+	config.InitConf(confPath)
 	return &PigServer{desc: desc, service: service}
 }
 
@@ -41,9 +44,21 @@ func (p *PigServer) HandlerReq(pigReq *codec.PigReq)(*codec.PigResponse,error) {
 }
 
 func (p *PigServer) Serve(options *Options) {
+	// 服务注册
+	go p.Register(options)
 	p.trans.SetHandlerReq(p.HandlerReq)
 	p.trans.ListenAndServer(options.Ip,options.Port)
 }
+
+func (p *PigServer) Register(options *Options) {
+	// 服务注册
+	service := third.GetEtcdService()
+	err := service.RegService("123", "Ping", "127.0.0.1:8080")
+	if err != nil {
+		// todo 重试
+	}
+}
+
 
 func (p *PigServer) Close() {
 

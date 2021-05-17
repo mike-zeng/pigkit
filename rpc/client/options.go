@@ -3,8 +3,8 @@ package client
 import "time"
 
 type Options struct {
-	serviceName string // service name
-	method string // method name
-	timeout time.Duration  // timeout
+	ServiceName       string        // service name
+	Method            string        // Method name
+	Timeout           time.Duration // Timeout
 	SerializationType string
 }

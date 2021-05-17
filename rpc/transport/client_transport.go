@@ -7,12 +7,17 @@ import (
 )
 
 type ClientTransport interface {
+	Manage()*pool.Manage
 	SyncSend(serverName string,bytes []byte)(*codec.Frame,error)
 }
 
 
 type PigClientTransport struct {
 	manage *pool.Manage
+}
+
+func (trans *PigClientTransport) Manage()*pool.Manage {
+	return trans.manage
 }
 
 func NewPigClientTransport(manage *pool.Manage) *PigClientTransport {
@@ -29,6 +34,7 @@ func (trans *PigClientTransport) SyncSend(serverName string, data []byte)(*codec
 		netPool.Return(node)
 	}()
 	if err != nil||node==nil {
+		// 循环等待
 		return nil,errors.New("no free node")
 	}
 	// write data

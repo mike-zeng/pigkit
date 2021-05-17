@@ -3,10 +3,9 @@ package codec
 import (
 	"encoding/json"
 	"errors"
+	"github.com/golang/protobuf/proto"
 	"math"
 	"sync"
-
-	"github.com/golang/protobuf/proto"
 )
 
 // Serialization 序列化
@@ -19,10 +18,11 @@ const (
 	PbType = "proto"
 	JsonType = "json"
 )
+
 var pbSerialization PbSerialization
 var jsonSerialization JsonSerialization
 
-
+// GetSerialization 获取序列化器
 func GetSerialization(typeStr string)Serialization  {
 	switch typeStr {
 	case PbType:
@@ -34,6 +34,7 @@ func GetSerialization(typeStr string)Serialization  {
 	}
 }
 
+// PbSerialization 基于proto实现的序列化器
 type PbSerialization struct{
 
 }
@@ -43,7 +44,6 @@ func (d *PbSerialization) Marshal(v interface{}) ([]byte, error) {
 		return nil, errors.New("marshal nil interface{}")
 	}
 	if pm, ok := v.(proto.Marshaler); ok {
-		// 可以 marshal 自身，无需 buffer
 		return pm.Marshal()
 	}
 	buffer := bufferPool.Get().(*cachedBuffer)
@@ -59,7 +59,6 @@ func (d *PbSerialization) Marshal(v interface{}) ([]byte, error) {
 	buffer.lastMarshaledSize = upperLimit(len(data))
 	buffer.SetBuf(nil)
 	bufferPool.Put(buffer)
-
 	return data, nil
 }
 
@@ -67,7 +66,6 @@ func (d *PbSerialization) Unmarshal(data []byte, v interface{}) error {
 	if data == nil || len(data) == 0 {
 		return errors.New("unmarshal nil or empty bytes")
 	}
-
 	protoMsg := v.(proto.Message)
 	protoMsg.Reset()
 
@@ -105,6 +103,7 @@ func upperLimit(val int) uint32 {
 	return uint32(val)
 }
 
+// JsonSerialization 基于json实现的序列化
 type JsonSerialization struct{
 
 }

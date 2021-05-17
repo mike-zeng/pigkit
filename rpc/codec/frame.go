@@ -3,7 +3,7 @@ package codec
 import (
 	"bytes"
 	"encoding/binary"
-	"net"
+	"github.com/mike-zeng/pigkit/rpc/env"
 )
 
 type Frame struct {
@@ -44,13 +44,9 @@ func (frame Frame) Bytes()[]byte {
 }
 
 func (frame *Frame) IsReq()bool  {
-	return frame.Header.MsgType == 0x0
+	return frame.Header.MsgType == env.MsgReqType
 }
 
 func (frame *Frame) IsResp()bool  {
-	return frame.Header.MsgType == 0x1
-}
-
-func BuildFromReader(conn net.Conn)(*Frame,error) {
-	return nil,nil
+	return frame.Header.MsgType == env.MsgRespType
 }

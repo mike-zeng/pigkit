@@ -10,7 +10,7 @@ func DefaultLoadBalancer() LoadBalancer{
 
 // LoadBalancer 负载均衡器
 type LoadBalancer interface {
-	GetPool(pools []NetPool)NetPool
+	GetPool(pools map[string]NetPool)NetPool
 }
 
 // SmoothWeightedLoadBalancer 平滑加权轮询算法
@@ -18,7 +18,7 @@ type SmoothWeightedLoadBalancer struct {
 	
 }
 
-func (lb *SmoothWeightedLoadBalancer) GetPool(pools []NetPool)NetPool {
+func (lb *SmoothWeightedLoadBalancer) GetPool(pools map[string]NetPool)NetPool {
 	if len(pools)==0{
 		return nil
 	}

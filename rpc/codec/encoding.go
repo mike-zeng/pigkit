@@ -8,20 +8,8 @@ import (
 	"github.com/mike-zeng/pigkit/rpc/env"
 )
 
-
-func EncodingFrameToResponse(frame *Frame) (*PigResponse,error) {
-
-	if !frame.IsResp() {
-		return nil,errors.New("frame msg type error,need resp type")
-	}
-	content := frame.Body.content
-	pigResponse := PigResponse{}
-	err := json.Unmarshal(content, &pigResponse)
-	return &pigResponse,err
-}
-
+// EncodingFrameToRequest Frame对象解码成Request对象
 func EncodingFrameToRequest(frame *Frame) (*PigReq,error) {
-
 	if !frame.IsReq() {
 		return nil,errors.New("frame msg type error,need req type")
 	}
@@ -31,6 +19,18 @@ func EncodingFrameToRequest(frame *Frame) (*PigReq,error) {
 	return &pigReq,err
 }
 
+// EncodingFrameToResponse Frame对象解码成Response对象
+func EncodingFrameToResponse(frame *Frame) (*PigResponse,error) {
+	if !frame.IsResp() {
+		return nil,errors.New("frame msg type error,need resp type")
+	}
+	content := frame.Body.content
+	pigResponse := PigResponse{}
+	err := json.Unmarshal(content, &pigResponse)
+	return &pigResponse,err
+}
+
+// ReadFrameHeader 从buffer中读取frame header
 func ReadFrameHeader(buffer *bytes.Buffer) (*Header,error)  {
 	frameHeader := Header{}
 	var(
@@ -120,6 +120,7 @@ func ReadFrameHeader(buffer *bytes.Buffer) (*Header,error)  {
 	return &frameHeader,nil
 }
 
+// ReadFrameBody 从buffer中读取frame body
 func ReadFrameBody(buffer *bytes.Buffer) (*Body,error){
 	// read Body
 	frameBody := Body{}

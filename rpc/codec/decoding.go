@@ -4,6 +4,7 @@ import (
 	"github.com/mike-zeng/pigkit/rpc/env"
 )
 
+// DecodingRequestToFrame 将Request对象封装成帧
 func DecodingRequestToFrame(req *PigReq) *Frame {
 	frame := Frame{
 		Header: &Header{
@@ -18,7 +19,7 @@ func DecodingRequestToFrame(req *PigReq) *Frame {
 	return &frame
 }
 
-
+// DecodingResponseToFrame 将Response封装成帧
 func DecodingResponseToFrame(resp *PigResponse) *Frame {
 	frame := Frame{
 		Header: &Header{
