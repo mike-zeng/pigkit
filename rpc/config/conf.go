@@ -15,22 +15,31 @@ type config struct {
 
 type PigServerConfig struct {
 	Port    int      `yaml:"port"` // 端口号
+	ServiceName string `yaml:"service_name"`
+	NodeId string `yaml:"node_id"`
 	TimeOut int      `yaml:"timeout"`
 	Etcd    EtcdConf `yaml:"etcd"` // etcd连接信息
+	JaegerConf JaegerConf `yaml:"jaeger"`
 }
 
 type EtcdConf struct{
 	Hosts []string `yaml:"hosts,flow"`
 	TimeOut int `yaml:"timeout"`
 }
-
-var once sync.Once
+type JaegerConf struct {
+	CollectorEndpoint string `yaml:"collector_endpoint"`
+}
+var confInit sync.Once
 var conf *config
 
 func InitConf(path string){
-	once.Do(func() {
+
+}
+
+func GetConfig()*config {
+	confInit.Do(func() {
 		conf = &config{}
-		yamlFile, err := ioutil.ReadFile(path)
+		yamlFile, err := ioutil.ReadFile("./pig.yaml")
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -39,9 +48,6 @@ func InitConf(path string){
 			log.Fatalln(err)
 		}
 	})
-}
-
-func GetConfig()*config {
 	if conf == nil {
 		log.Fatalln(errors.New("conf not read"))
 	}

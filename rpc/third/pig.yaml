@@ -1,0 +1,10 @@
+server:
+  service_name: Hello
+  port: 8081
+  timeout: 2000
+  etcd:
+    timeout: 2000
+    hosts:
+      - 127.0.0.1:2379
+  jaeger:
+    collector_endpoint: http://localhost:14268/api/traces

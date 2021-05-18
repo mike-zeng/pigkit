@@ -1,8 +1,10 @@
 package transport
 
 import (
+	"context"
 	"github.com/mike-zeng/pigkit/rpc/codec"
 	"github.com/mike-zeng/pigkit/rpc/log"
+	"github.com/mike-zeng/pigkit/rpc/third"
 	"net"
 )
 
@@ -13,10 +15,10 @@ type ServerTransport interface {
 
 
 type PigServerTransport struct {
-	handlerReq func(*codec.PigReq)(*codec.PigResponse, error)
+	handlerReq func(context.Context,*codec.PigReq)(*codec.PigResponse, error)
 }
 
-func (trans *PigServerTransport) SetHandlerReq(handlerReq func(*codec.PigReq) (*codec.PigResponse, error)) {
+func (trans *PigServerTransport) SetHandlerReq(handlerReq func(context.Context,*codec.PigReq) (*codec.PigResponse, error)) {
 	trans.handlerReq = handlerReq
 }
 
@@ -56,8 +58,14 @@ func (trans *PigServerTransport)handleConn(conn net.Conn)  {
 			log.DefaultLog.ERROR("encoding frame error %v",err)
 			return
 		}
+		ctx := codec.WithMetadata(context.Background(), request.MetaData)
+		newCtx, span := third.GetTracerClient().StartSpanServer(ctx, request.MethodName)
 		// deal req
-		resp,err := trans.handlerReq(request)
+		resp,err := trans.handlerReq(newCtx,request)
+		if span != nil {
+			span.Finish()
+		}
+
 		if err != nil {
 			return
 		}
@@ -67,6 +75,7 @@ func (trans *PigServerTransport)handleConn(conn net.Conn)  {
 		if err != nil {
 			log.DefaultLog.ERROR("write data to network error %v",err)
 		}
+
 	}
 
 }

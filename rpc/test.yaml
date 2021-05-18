@@ -1,7 +1,0 @@
-server:
-  port: 8081
-  timeout: 1000
-  etcd:
-    timeout: 3000
-    hosts:
-      - 127.0.0.1:8181

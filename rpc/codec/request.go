@@ -7,7 +7,7 @@ import (
 type PigReq struct {
 	ServiceName       string
 	MethodName        string
-	MetaData          map[string]interface{}
+	MetaData          Metadata
 	SerializationType string
 	Content           []byte
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/mike-zeng/pigkit/rpc/codec"
 	"github.com/mike-zeng/pigkit/rpc/pool"
+	"github.com/mike-zeng/pigkit/rpc/third"
 	"github.com/mike-zeng/pigkit/rpc/transport"
 	"sync"
 )
@@ -44,14 +45,14 @@ func (p *pigClient) Call(ctx context.Context, req interface{}, options Options) 
 	pigReq := &codec.PigReq{
 		ServiceName: options.ServiceName,
 		MethodName:  options.Method,
-		MetaData:    nil,
 		Content:     contentData,
 		SerializationType: options.SerializationType,
 	}
+
+	newCtx, span := third.GetTracerClient().StartSpanClient(ctx, options.Method)
+	defer span.Finish()
+	pigReq.MetaData = codec.GetMetadataFromCtx(newCtx)
 	frame := codec.DecodingRequestToFrame(pigReq)
-	if err != nil {
-		return nil, err
-	}
 	send, err := p.trans.SyncSend(options.ServiceName, frame.Bytes())
 	if err != nil {
 		return nil, err

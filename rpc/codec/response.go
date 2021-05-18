@@ -4,7 +4,7 @@ import "encoding/json"
 
 type PigResponse struct {
 	ServerName string
-	MetaData map[string]interface{}
+	MetaData Metadata
 	SerializationType int
 	Content []byte
 }
